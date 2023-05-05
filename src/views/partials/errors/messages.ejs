@@ -1,0 +1,7 @@
+<% Object.keys(messages).foreach((type)=>{ %>
+<div class="alert alert-<%= type %>">
+    <% messages[type].foreach(message=>{ %>
+        <%= message %>
+    <% }) %>    
+</div>
+<% }) %>

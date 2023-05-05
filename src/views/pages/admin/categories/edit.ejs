@@ -1,0 +1,24 @@
+<%- include('../../../layouts/admin/header.ejs') %>
+
+    <h2 class="page-title d-flex justify-content-between">
+        <span>Editar Categoria</span>
+        <a href="/admin/categories" class="btn btn-success">
+            Regresar a todas las categorias
+        </a>
+    </h2>
+    <br>
+    <form action="/admin/categories/edit/<%= category._id %>" method="post">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="title">Titulo</label>
+                    <input type="text" id="title" name="title" placeholder="Titulo de la categoria" class="form-control" value="<%= category.title %>" autofocus>
+                </div>      
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </form>
+
+<%- include('../../../layouts/admin/footer.ejs') %>

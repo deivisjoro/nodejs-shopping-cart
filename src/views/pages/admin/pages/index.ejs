@@ -1,0 +1,59 @@
+<%- include('../../../layouts/admin/header.ejs') %>
+
+    <h2 class="page-title d-flex justify-content-between">
+        <span>Paginas</span>
+        <a href="/admin/pages/add" class="btn btn-success">
+            Agregar nueva pagina
+        </a>
+    </h2>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            
+            <table class="table table-striped table-hover sorting">
+                <thead>
+                    <tr class="home">
+                        <th>Titulo</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% pages.forEach(page=>{ %>
+                        <tr id="id_<%= page._id %>" class="<%= page.slug %>">
+                            <td>
+                                <%= page.title %>
+                            </td>
+                            <td>
+                                <a href="/admin/pages/edit/<%= page._id %>" class="btn btn-warning">Editar</a>
+                            </td>
+                            <td>
+                                <% if(page.slug==='home'){ %>
+                                    &nbsp;
+                                <% }else{ %>  
+                                    <a href="/admin/pages/delete/<%= page._id %>" class="btn btn-danger confirmarEliminacion">Eliminar</a>
+                                <% } %> 
+                            </td>
+                        </tr>
+                    <% }); %>    
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script>
+        $('tbody').sortable({
+            items: "tr:not('.home')",
+            placeholder: "ui-state-hightlight",
+            update: function(){
+                let ids = $('tbody').sortable("serialize");
+                let url = "/admin/pages/reorder";
+
+                $.post(url, ids);
+            }
+        });
+    </script>
+
+<%- include('../../../layouts/admin/footer.ejs') %>

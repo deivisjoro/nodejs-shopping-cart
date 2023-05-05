@@ -1,0 +1,39 @@
+<%- include('../../layouts/default/header.ejs') %>
+
+    <h1 class="pb-3 mt-4 mb-3 border-bottom"><%= product.title %></h1>
+    <div class="row">
+        <div class="col-xs-12 col-md-5">
+            <% if(product.image===""){ %>
+                <img src="/images/noimage.png" alt="imagen del producto" class="spi">
+            <% }else{%>
+                <img src="/images/products/<%=product._id%>/<%=product.image%>" alt="imagen del producto" class="spi">
+            <% } %>
+            <br>
+        </div>
+        <div class="col-xs-12 col-md-7">
+            <p><%=product.title%></p>
+            <p>$<%= parseFloat(product.price).toFixed(2) %></p>
+            <% if(loggedIn){ %>
+                <p>
+                    <a href="/cart/add/<%=product.slug%>">Agregar al carrito</a>
+                </p>
+            <% }else{ %>
+                <p class="alert alert-warning">Debe estar loegueado para realizar compras</p>            
+            <% } %>            
+        </div>
+        <div class="col-xs-12">
+            <ul class="gallery">
+                <% galleryImages.forEach(image =>{ %>
+                    <% if(image!=='thumbs'){ %>
+                        <li>
+                            <a href="/images/products/<%=product._id%>/gallery/<%=image%>" data-fancybox="gallery">
+                                <img src="/images/products/<%=product._id%>/gallery/thumbs/<%=image%>" alt="imagen de la galeria del producto">
+                            </a>
+                        </li>
+                    <% } %>
+                <% }) %>
+            </ul>
+        </div>
+    </div>
+
+<%- include('../../layouts/default/footer.ejs') %>

@@ -1,0 +1,100 @@
+<%- include('../../layouts/default/header.ejs') %>
+
+    <h1 class="pb-3 mt-4 mb-3 border-bottom">Mi Carrito</h1>
+
+    <% if(typeof cart!=='undefined'){ %>
+        <table class="table table-striped alignmiddle">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th></th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+               <% let total = 0; %>                
+                <% cart.forEach(product=>{ %>
+                    <% let subtotal = (product.price*product.quantity)%>
+                    <% total += subtotal; %>
+                    <tr>
+                        <td>
+                            <img src="<%=product.image%>" class="cpi" alt="imagen del producto">
+                        </td>
+                        <td><%=product.title%></td>
+                        <td>$<%=parseFloat(product.price).toFixed(2)%></td>
+                        <td><%=product.quantity%></td>
+                        <td>
+                            <a href="/cart/update/<%=product.title%>?action=add">+</a>&nbsp;
+                            <a href="/cart/update/<%=product.title%>?action=remove">-</a>&nbsp;
+                            <a href="/cart/update/<%=product.title%>?action=clear">Eliminar</a>
+                        </td>
+                        <td>
+                            $<%=parseFloat(subtotal).toFixed(2)%>
+                        </td>
+                    </tr>    
+                <% }) %> 
+                <tr>
+                    <td colspan="6" align="right">
+                        <strong>Total: </strong>
+                        $<%= parseFloat(total).toFixed(2) %>
+                    </td>
+                </tr>       
+                <tr>
+                    <td colspan="5" align="right">
+                        <a href="/cart/clear" class="btn btn-danger clearcart">Limpiar</a>
+                    </td>
+                    <td align="right">
+                        <a href="#" class="btn btn-primary buynow"> Pagar </a>
+                    </td>
+                </tr>       
+            </tbody>
+        </table>
+        <input type="hidden" name="cmd" value="_ext-enter">
+        <form class="form-paypal" action="https://www.paypal.com/us/cgi-bin/webscr" method="post">
+            <input type="hidden" name="cmd" value="_cart">
+            <input type="hidden" name="business" value="deivisjoro@yahoo.com">
+            <input type="hidden" name="currency_code" value="USD">
+            <input type="hidden" name="amount" value="<%=total%>">
+            <input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!">
+            <input type="hidden" name="upload" value="1">
+            <% let num = 1; %>
+            <% cart.forEach(product=>{ %>
+                <input type="hidden" name="item_name_<%=num%>" value="<%=product.title%>">
+                <input type="hidden" name="amount_<%=num%>" value="<%=product.price%>">
+                <input type="hidden" name="quantity_<%=num%>" value="<%=product.quantity%>">
+                <% num++; %>
+            <% }); %>
+        </form>
+
+    <%}else{%>
+        <p class="text-center alert alert-warning">Su carrito esta vacio!</p>
+    <% } %>
+
+    <script>
+        const botonClear = document.querySelector('.clearcart');
+        const botonBuy = document.querySelector('.buynow');
+        if(botonClear){
+            botonClear.addEventListener('click', (e)=>{
+                if(!confirm('Confirma vaciar el carrito?')){
+                    e.preventDefault();
+                }
+            });
+
+            botonBuy.addEventListener('click', (e)=>{
+                e.preventDefault();
+                
+                fetch('/cart/buynow')
+                    .then(response=>{
+                        document.querySelector('.ajaxbg').style.display = 'block';
+                        const image = document.querySelector('form.form-paypal input[type=image]');
+                        image.click();
+                    })
+                    .catch(e=>console.log(e))
+            });
+        }
+    </script>
+
+<%- include('../../layouts/default/footer.ejs') %>

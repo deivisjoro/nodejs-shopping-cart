@@ -1,0 +1,26 @@
+<%- include('../../../layouts/default/header.ejs') %>
+
+    <h1>Login de Usuario</h1>
+    <form action="/users/login" method="post">
+
+        <div class="card">
+            <div class="card-body">
+               
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Username del usuario" class="form-control" value="<%= usuario.username %>">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Password del usuario" class="form-control" value="<%= usuario.password %>">
+                </div>
+                              
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+        </div>
+
+    </form>
+
+<%- include('../../../layouts/default/footer.ejs') %>

@@ -1,0 +1,48 @@
+.sorting tr:not(.home){
+    cursor: pointer;
+}
+
+.ui-state-hightlight{
+    border: 1px dashed #db3a3a;
+}
+
+#imgPreview{
+    margin: 20px;
+}
+
+.img-resize{
+    width: 100px;
+    height: 100px;
+}
+
+ul.gallery{
+    padding: 0;
+}
+
+ul.gallery li:first-child{
+    margin-left: 0;
+}
+
+ul.gallery li{
+    margin: 20px;
+    display: inline-block;
+    list-style-type: none;
+}
+
+table.alignmiddle td{
+    vertical-align: middle!important;
+}
+
+#container {
+    width: 1000px;
+    margin: 20px auto;
+}
+.ck-editor__editable[role="textbox"] {
+    /* editing area */
+    min-height: 200px;
+}
+.ck-content .image {
+    /* block images */
+    max-width: 80%;
+    margin: 20px auto;
+}
